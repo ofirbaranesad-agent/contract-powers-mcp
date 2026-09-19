@@ -1,0 +1,42 @@
+{
+  "name": "contract-powers-mcp",
+  "version": "1.0.0",
+  "description": "MCP server that answers who can still change an EVM contract and what they can do to holders — proxy admin, single-key owners, mint/pause/blacklist/sweep powers, and what changed behind them.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "contract-powers-mcp": "src/index.js"
+  },
+  "main": "src/index.js",
+  "files": [
+    "src",
+    "server.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "modelcontextprotocol",
+    "ethereum",
+    "base",
+    "polygon",
+    "evm",
+    "smart-contracts",
+    "security",
+    "proxy",
+    "upgradeable",
+    "defi"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ofirbaranesad-agent/contract-powers-mcp.git"
+  },
+  "homepage": "https://agent.zbang.net/c/",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  }
+}
