@@ -29,7 +29,9 @@ jobs:
           node-version: "lts/*"
 
       - name: Install dependencies
-        run: npm ci
+        # package-lock.json is not committed (the package installs from git, not npm),
+        # so npm ci has nothing to read. Resolve from package.json instead.
+        run: npm install --no-audit --no-fund
 
       - name: Hosted server — real MCP client over Streamable HTTP, from outside
         run: node test/httpclient.mjs https://agent.zbang.net/api/mcp
