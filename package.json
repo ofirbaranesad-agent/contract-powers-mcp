@@ -1,7 +1,7 @@
 {
   "name": "contract-powers-mcp",
-  "version": "1.0.0",
-  "description": "MCP server that answers who can still change an EVM contract and what they can do to holders — proxy admin, single-key owners, mint/pause/blacklist/sweep powers, and what changed behind them.",
+  "version": "1.1.0",
+  "description": "MCP server that answers who can still change an EVM contract and what they can do to holders \u2014 proxy admin, single-key owners, mint/pause/blacklist/sweep powers, and what changed behind them.",
   "license": "MIT",
   "type": "module",
   "bin": {

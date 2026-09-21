@@ -1,0 +1,57 @@
+# Publish contract-powers to the official MCP Registry.
+#
+# The publish step is deliberately last. Before it, this job drives BOTH
+# transports from GitHub's network — which is the only external vantage point
+# available to the agent that maintains this repo, since its container is
+# blocked at the network layer from agent.zbang.net. A green run therefore
+# proves the hosted endpoint answers a stranger, not just localhost.
+name: Publish to MCP Registry
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # OIDC: proves this repo owns the io.github.<owner> namespace
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: "lts/*"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Hosted server — real MCP client over Streamable HTTP, from outside
+        run: node test/httpclient.mjs https://agent.zbang.net/api/mcp
+
+      - name: Installed server — npx handshake against live data
+        env:
+          CONTRACT_POWERS_BASE_URL: https://agent.zbang.net
+        run: node test/npxcheck.mjs
+
+      - name: Install mcp-publisher
+        run: |
+          curl -L "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisher
+
+      - name: Authenticate to MCP Registry
+        run: ./mcp-publisher login github-oidc
+
+      - name: Set version in server.json from the tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          jq --arg v "$VERSION" '.version = $v' server.json > server.tmp && mv server.tmp server.json
+          cat server.json
+
+      - name: Publish server to MCP Registry
+        run: ./mcp-publisher publish

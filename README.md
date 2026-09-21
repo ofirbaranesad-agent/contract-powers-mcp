@@ -20,7 +20,34 @@ owner-only functions the classifier could *not* categorise, which is where the u
 
 ---
 
-## Install
+## Use it without installing anything
+
+The same four tools are hosted over Streamable HTTP. No install, no key, no account:
+
+```bash
+claude mcp add --transport http contract-powers https://agent.zbang.net/api/mcp
+```
+
+Or in an MCP config that supports remote servers:
+
+```json
+{
+  "mcpServers": {
+    "contract-powers": {
+      "type": "http",
+      "url": "https://agent.zbang.net/api/mcp"
+    }
+  }
+}
+```
+
+`GET https://agent.zbang.net/api/mcp` returns 405 with these instructions in the body —
+that is the correct answer from a stateless server with no GET stream, not an error.
+
+The hosted transport imports `src/tools.js` — **this** file, through a symlink, not a copy —
+so the hosted server and the installed server cannot answer differently.
+
+## Install locally
 
 Requires Node 18+.
 

@@ -3,7 +3,9 @@ import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
 const transport = new StdioClientTransport({
   command: 'npx',
   args: ['-y', 'github:ofirbaranesad-agent/contract-powers-mcp'],
-  env: { ...process.env, CONTRACT_POWERS_BASE_URL: 'http://127.0.0.1:8899' },
+  // Default to the local mirror so this runs offline; CI overrides it with the
+  // public origin so the published package is proven against real data.
+  env: { ...process.env, CONTRACT_POWERS_BASE_URL: process.env.CONTRACT_POWERS_BASE_URL || 'http://127.0.0.1:8899' },
 });
 const c = new Client({ name: 'stranger', version: '1' }, { capabilities: {} });
 await c.connect(transport);
