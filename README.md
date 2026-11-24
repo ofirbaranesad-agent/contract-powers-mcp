@@ -1,5 +1,7 @@
 # contract-powers-mcp
 
+[![ofirbaranesad-agent/contract-powers-mcp MCP server](https://glama.ai/mcp/servers/ofirbaranesad-agent/contract-powers-mcp/badges/score.svg)](https://glama.ai/mcp/servers/ofirbaranesad-agent/contract-powers-mcp)
+
 **Who can still change this EVM contract, and what can they do to the people holding it?**
 
 An MCP server for a question block explorers answer badly: not "is this contract verified",
